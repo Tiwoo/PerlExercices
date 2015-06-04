@@ -1,0 +1,74 @@
+#usr/bin/perl#wendush comment#wendush comment
+#wendush comment
+#wendush comment
+#wendush comment
+#wendush comment
+#wendush comment
+#wendush comment
+#wendush comment
+#value_stock_vins.pl
+use warnings;
+use strict;
+
+my %stock = ('Alsace Gewurztraminer' => 10, 'Beaujolais-Villages' => 10, 'Pomerol' => 10, 'Blagny' => 10, 'Monbazillac' => 10);
+my %prix = ('Alsace Gewurztraminer' => 50.5, 'Beaujolais-Villages' => 11, 'Pomerol' => 36.8, 'Blagny' => 2, 'Monbazillac' => 70);
+my $choix = "";
+
+print "\nAvant la mise a jour : \n";
+stock_value(\%stock, \%prix, 0.196);
+
+
+do {
+my @stock = keys %stock;
+print "\nQuel vin voulez-vous mettre a jour : ";
+my $vin = <STDIN>;
+chomp $vin;
+my $catch_count = 0;
+
+foreach my $wine2(keys %stock){
+	if($wine2 =~ /$vin/i){
+		$catch_count ++;
+		print "\nIl y' a ", $stock{$wine2}, " bouteilles de $vin dans notre stock.\n";
+		print "\nPour ajouter la quantite taper + ou - devant la quantite a ajouter ou soustraire: ";
+		$stock{$wine2} = $stock{$wine2} + <STDIN>;
+		if($stock{$wine2} < 0 ){
+			
+		print "Vous n'avez pas assez de bouteilles de $vin en stock\n";}
+		
+} 
+}
+if($catch_count == 0){print "\n$vin n'est pas dans notre stock\n";}
+print "Voulez-vous continuer a mettre a jour le stock? y pour oui et n pour non: ";
+$choix = <STDIN>;
+chomp $choix;
+} while ($choix =~ "y");
+
+	
+
+print "\n===========================================================\n\t\tSTOCK\n===========================================================\n";
+foreach my $wine (keys %stock){
+	print "\n$wine ", $stock{$wine}, " bouteilles en stock\n";
+}
+print "\nApres la mise a jour : ";
+stock_value(\%stock, \%prix, 0.196);
+
+sub stock_value{
+	my @input = @_;
+	my $stockref = $input[0];
+	my $prixref = $input[1];
+	my $taux = $input[2];
+	my $valeur_stock = 0;
+	my $nombre_bouteilles_stock = 0;
+	foreach my $wine3(keys $stockref){
+		$nombre_bouteilles_stock += $$stockref{$wine3};
+		foreach my $wine4(keys $prixref){
+			if($wine3 eq $wine4){
+				$valeur_stock += (($$stockref{$wine3}*$$prixref{$wine4}) + ($$stockref{$wine3}*$$prixref{$wine4})*$taux);
+				print "\nIl y'en a pour ",(($$stockref{$wine3}*$$prixref{$wine4}) + ($$stockref{$wine3}*$$prixref{$wine4})*$taux), " euros de $wine3 dans le stock.\n";
+			}	
+		}
+	}
+	return print "\nLa valeur du stock est de $valeur_stock euros pour $nombre_bouteilles_stock bouteilles.\n";
+	#return print $$stockref{Pomerol}, "\n";
+	
+}
