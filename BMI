@@ -1,0 +1,40 @@
+#!usr/bin/perl#wendush comment#wendush comment
+#wendush comment
+#wendush comment
+#wendush comment
+#wendush comment
+#wendush comment
+#wendush comment
+#wendush comment
+#bmi.pl
+use warnings;
+use strict;
+
+my $height = 0;
+do {
+print "Enter your height in meters\n";
+$height = <STDIN>;
+chomp $height;
+if ($height <= 0 or $height >=2.5 or $height =~ /[a-zA-Z]/) {print "The height should be strictly positive and less than 2.5 meters. Try again!\n"};
+}while ($height <= 0 or $height >=2.5);
+
+my $weight = 0;
+do{
+print "Enter your weight in kilograms\n";
+$weight = <STDIN>;
+chomp $weight;
+if($weight <= 0) {print "The weight should be strictly positive. Try again!\n"};
+}while ($weight <= 0);
+
+
+my ($bmi) = calcul_bmi ($weight, $height);
+
+sub calcul_bmi {
+	my @input = @_;
+	my $bmi = $weight/$height**2;
+	print "\nYour height: $height m \nYour weight: $weight kg \nYour Body Mass Index is $bmi \n";
+	if ($bmi < 18.5) {return print "You are underweight, please eat more!!!\n";}
+	elsif($bmi >= 18.5 and $bmi < 25){return print"You have a normal weight, but keep exercising!!!\n";}
+	else {return print "You are overweight, please do some exercices!!!\n";}
+	
+}
